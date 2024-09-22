@@ -1,0 +1,170 @@
+
+    <!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <title>Orange and Black Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333; /* Black background */
+        }
+
+        #display {
+            width: 200px;
+            height: 30px;
+            font-size: 24px;
+            text-align: right;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffa07a; /* Orange background */
+            color: #333; /* Black text */
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 11px;
+        }
+
+        button {
+            width: 50px;
+            height: 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffa07a; /* Orange background */
+            color: #333; /* Black text */
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff9900; /* Darker orange on hover */
+        }
+
+        button:active {
+            background-color: #ff69b4; /* Lighter orange on active */
+        }
+    </style>
+</head>
+<body>
+    <h1>Orange and Black Calculator</h1>
+    <input type="text" id="display" readonly>
+    <table>
+        <tr>
+            <td><button value="7">7</button></td>
+            <td><button value="8">8</button></td>
+            <td><button value="9">9</button></td>
+            <td><button value="/">/</button></td>
+            <td><button value="sqrt">√</button></td>
+        </tr>
+        <tr>
+            <td><button value="4">4</button></td>
+            <td><button value="5">5</button></td>
+            <td><button value="6">6</button></td>
+            <td><button value="*">*</button></td>
+            <td><button value="x^2">x^2</button></td>
+        </tr>
+        <tr>
+            <td><button value="1">1</button></td>
+            <td><button value="2">2</button></td>
+            <td><button value="3">3</button></td>
+            <td><button value="-">-</button></td>
+            <td><button value="e">e</button></td>
+        </tr>
+        <tr>
+            <td><button value="0">0</button></td>
+            <td><button value=".">.</button></td>
+            <td><button value="=">=</button></td>
+            <td><button value="+">+</button></td>
+            <td><button value="ln">ln</button></td>
+        </tr>
+        <tr>
+            <td colspan="5"><button value="C">C</button></td>
+        </tr>
+        <tr>
+            <td><button value="sin">sin</button></td>
+            <td><button value="cos">cos</button></td>
+            <td><button value="tan">tan</button></td>
+            <td><button value="log">log</button></td>
+            <td><button value="pi">π</button></td>
+        </tr>
+    </table>
+
+    <script>
+        const display = document.getElementById("display");
+        let num1, num2, operator;
+
+        document.addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON") {
+                const value = e.target.value;
+
+                if (value === "=") {
+                    try {
+                        num2 = parseFloat(display.value);
+                        display.value = calculate(num1, num2, operator);
+                    } catch (e) {
+                        display.value = "Error";
+                    }
+                } else if (value === "C") {
+                    display.value = "";
+                    num1 = null;
+                    num2 = null;
+                    operator = null;
+                } else if (value === "+" || value === "-" || value === "*" || value === "/") {
+                    num1 = parseFloat(display.value);
+                    operator = value;
+                    display.value = "";
+                } else {
+                    display.value += value;
+                }
+            }
+        });
+
+        function calculate(num1, num2, operator) {
+            switch (operator) {
+                case "+":
+                    return num1 + num2;
+                case "-":
+                    return num1 - num2;
+                case "*":
+                    return num1 * num2;
+                case "/":
+                    if (num2 === 0) {
+                        return "Error: Division by zero is not allowed";
+                    }
+                    return num1 / num2;
+                case "sqrt":
+                    return Math.sqrt(num1);
+                case "x^2":
+                    return num1 ** 2;
+                case "e":
+                    return Math.E;
+                case "ln":
+                    return Math.log(num1);
+                case "log":
+                    return Math.log10(num1);
+                case "sin":
+                    return Math.sin(Math.radians(num1));
+                case "cos":
+                    return Math.cos(Math.radians(num1));
+                case "tan":
+                    return Math.tan(Math.radians(num1));
+                case "pi":
+                    return Math.PI;
+                default:
+                    return "Error: Invalid operation";
+            }
+        }
+
+        Math.radians = function(degrees) {
+            return degrees * Math.PI / 180;
+        };
+    </script>
+</body>
+</html>
